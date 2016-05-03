@@ -11,6 +11,7 @@ public class Character extends Entity{
 		this.images[1] = new ImageIcon(getClass().getResource("1.png")).getImage();
 	}
 	public void jump(){
+		this.currentImage = 1;
 		this.y = this.y - 60;
 	}
 }

@@ -5,8 +5,8 @@ public abstract class Entity {
 	
 	protected int x;
 	protected int y;
-	private int weight;
-	private int hight;
+	protected int weight;
+	protected int hight;
 	protected int currentImage;
 	Image [] images;
 	
