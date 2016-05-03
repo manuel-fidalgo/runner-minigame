@@ -35,10 +35,13 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		GamePanel g = GamePanel.getGamePanel();
 		frame = new JFrame();
+		
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(GamePanel.getGamePanel(),BorderLayout.CENTER);
+		frame.addKeyListener(g);
+		frame.add(g,BorderLayout.CENTER);
 	}
 
 }

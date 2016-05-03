@@ -12,6 +12,19 @@ public class Character extends Entity{
 	}
 	public void jump(){
 		this.currentImage = 1;
-		this.y = this.y - 60;
+		this.y = this.y - 200;
+	}
+	public void setX(int x){
+		this.x = x;
+	}
+	public int getFeetPosition() {
+		return this.y+this.images[currentImage].getHeight(null);
+	}
+	public void moveDown() {
+		this.y++;
+		
+	}
+	public void changeImage() {
+		currentImage = (currentImage+1)%images.length;
 	}
 }
