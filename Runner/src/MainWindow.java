@@ -38,7 +38,7 @@ public class MainWindow {
 		GamePanel g = GamePanel.getGamePanel();
 		frame = new JFrame();
 		
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 900, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addKeyListener(g);
 		frame.add(g,BorderLayout.CENTER);

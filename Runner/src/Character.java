@@ -7,12 +7,12 @@ public class Character extends Entity{
 		this.x = 0;
 		this.y = 0;
 		this.images = new Image[2];
-		this.images[0] = new ImageIcon(getClass().getResource("0.png")).getImage();
-		this.images[1] = new ImageIcon(getClass().getResource("1.png")).getImage();
+		this.images[0] = importImage("0.png");
+		this.images[1] = importImage("1.png");
 	}
 	public void jump(){
 		this.currentImage = 1;
-		this.y = this.y - 200;
+		this.y = this.y - this.images[0].getHeight(null)*2;
 	}
 	public void setX(int x){
 		this.x = x;

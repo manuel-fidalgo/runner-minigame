@@ -1,3 +1,4 @@
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -13,6 +14,8 @@ public class GamePanel extends JPanel implements KeyListener{
 	public Character character;
 	public static GamePanel panel_singleton;
 	public Physics physics;
+	public CloudAnimator clouder; //El nubeador xd
+	public ObstacleAnimator animator;
 	
 	Image[] images;
 	public int floor_cordinate;
@@ -25,23 +28,42 @@ public class GamePanel extends JPanel implements KeyListener{
 	}
 	public GamePanel(){
 		updateReferences();
+		setUpImages();
+		
 		this.character = new Character();
-		physics = new Physics(this.character,this);
-		images = new Image[2];
-		images[0] = new ImageIcon(getClass().getResource("wall.png")).getImage();
-		images[1] = new ImageIcon(getClass().getResource("floor.png")).getImage();
+		this.clouder = new CloudAnimator(this);
+		this.animator = new ObstacleAnimator(this);
+		this.physics = new Physics(this.character,this);
+		
+		clouder.start();
 		physics.start();
+		animator.start();
+		
 		this.repaint();
 	}
+	
 	@Override
 	public void paintComponent(Graphics g){
 		updateReferences();
 		g.drawImage(images[0],(int)this.getAlignmentX(),(int)this.getAlignmentY(),this.getWidth(),this.getHeight(), null);
 		g.drawImage(images[1],(int)this.getAlignmentX(), floor_cordinate,this.getWidth(),this.getHeight()-floor_cordinate,null);
+		for (int i = 0; i < clouder.getClouds().length; i++) {
+			clouder.getClouds()[i].draw((Graphics2D) g);
+		}
+		for (int i = 0; i < animator.getObstacles().length; i++) {
+			animator.getObstacles()[i].draw((Graphics2D) g);
+		}
 		this.character.setX(character_cordinate);
 		character.draw((Graphics2D) g);
-		g.drawLine(this.character_cordinate,(int) this.getAlignmentY(),this.character_cordinate,(int) this.getAlignmentY()+this.getHeight());
-
+		g.setFont(new Font("SansSerif", Font.ITALIC, 20));
+		g.drawString("@manuel_fidalgo", (int)this.getAlignmentX(), (int)this.getAlignmentY()+20);
+		// g.drawLine(this.character_cordinate,(int) this.getAlignmentY(),this.character_cordinate,(int) this.getAlignmentY()+this.getHeight());
+		
+	}
+	public void setUpImages(){
+		images = new Image[2];
+		images[0] = new ImageIcon(getClass().getResource("background.png")).getImage();
+		images[1] = new ImageIcon(getClass().getResource("floor.png")).getImage();
 	}
 	private void updateReferences() {
 		this.floor_cordinate = this.getHeight()-this.getHeight()/6;
