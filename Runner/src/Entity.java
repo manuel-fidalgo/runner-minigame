@@ -13,7 +13,6 @@ public abstract class Entity {
 	public Image [] images;
 	
 	public void draw(Graphics2D g){
-		//GamePanel gp = GamePanel.getGamePanel();
 		g.drawImage(images[currentImage],x,y,null);
 	}
 	public Image importImage(String path){
@@ -21,5 +20,8 @@ public abstract class Entity {
 	}
 	public void displazeLeft(){
 		this.x = this.x-1;
+	}
+	public void displazeRight(){
+		this.x = this.x+1;
 	}
 }

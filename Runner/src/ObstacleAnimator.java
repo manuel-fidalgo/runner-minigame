@@ -3,7 +3,7 @@ public class ObstacleAnimator extends Thread{
 
 	Obstacle[] current_obstacles;
 	GamePanel g;
-	public static int DELAY = 1;
+	public static int DELAY = 3;
 
 	public ObstacleAnimator(GamePanel g) {
 		this.g = g;

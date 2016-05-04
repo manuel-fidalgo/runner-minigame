@@ -10,17 +10,17 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements KeyListener{
-	
+
 	public Character character;
 	public static GamePanel panel_singleton;
 	public Physics physics;
 	public CloudAnimator clouder; //El nubeador xd
 	public ObstacleAnimator animator;
-	
+
 	Image[] images;
 	public int floor_cordinate;
 	public int character_cordinate;
-	
+
 	public static GamePanel getGamePanel(){
 		if(panel_singleton==null)
 			panel_singleton = new GamePanel();
@@ -29,19 +29,19 @@ public class GamePanel extends JPanel implements KeyListener{
 	public GamePanel(){
 		updateReferences();
 		setUpImages();
-		
+
 		this.character = new Character();
 		this.clouder = new CloudAnimator(this);
 		this.animator = new ObstacleAnimator(this);
 		this.physics = new Physics(this.character,this);
-		
+
 		clouder.start();
 		physics.start();
 		animator.start();
-		
+
 		this.repaint();
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g){
 		updateReferences();
@@ -58,7 +58,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		g.setFont(new Font("SansSerif", Font.ITALIC, 20));
 		g.drawString("@manuel_fidalgo", (int)this.getAlignmentX(), (int)this.getAlignmentY()+20);
 		// g.drawLine(this.character_cordinate,(int) this.getAlignmentY(),this.character_cordinate,(int) this.getAlignmentY()+this.getHeight());
-		
+
 	}
 	public void setUpImages(){
 		images = new Image[2];
@@ -72,18 +72,32 @@ public class GamePanel extends JPanel implements KeyListener{
 	/*KeyListener events*/
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		this.character.jump();
+		switch(arg0.getKeyCode()){
+			case KeyEvent.VK_SPACE:
+			case KeyEvent.VK_W: 
+				this.character.jump();
+				break;
+			case KeyEvent.VK_D: 
+				this.character.moveRight();
+				break;
+			case KeyEvent.VK_A:
+				this.character.moveLeft();
+				break;
+			case KeyEvent.VK_S: 
+				this.character.bend();
+				break;
+		}
 		this.repaint();
 	}
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }
