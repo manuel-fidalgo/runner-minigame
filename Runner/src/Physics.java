@@ -2,10 +2,11 @@
 public class Physics extends Thread{
 	Character character;
 	GamePanel gamepanel;
-	public static int DELAY = 100;
-	public static int FALL_SPEED = 3;
+	public static int LEG_DELAY = 100;
+	public static int FALL_DELAY;
 	
 	public Physics(Character c,GamePanel g){
+		FALL_DELAY=6;
 		this.character = c;
 		gamepanel = g;
 	}
@@ -14,9 +15,11 @@ public class Physics extends Thread{
 		while(true){
 			if(character.getFeetPosition() < gamepanel.floor_cordinate){
 				character.moveDown();
-				try { Thread.sleep(FALL_SPEED); } catch (InterruptedException e) { System.err.println("interrupted exception."); }
+				//System.out.println(FALL_DELAY);
+				try { Thread.sleep(FALL_DELAY); } catch (InterruptedException e) { System.err.println("interrupted exception."); }
 			}else{
-				try { Thread.sleep(DELAY); } catch (InterruptedException e) { System.err.println("interrupted exception."); }
+				FALL_DELAY = 5;
+				try { Thread.sleep(LEG_DELAY); } catch (InterruptedException e) { System.err.println("interrupted exception."); }
 				character.changeImage();
 			}
 			gamepanel.repaint();

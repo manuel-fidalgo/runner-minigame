@@ -2,6 +2,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -91,6 +93,12 @@ public class GamePanel extends JPanel implements KeyListener{
 		}
 		this.repaint();
 	}
+	public Character getCharacter(){
+		return this.character;
+	}
+	public Rectangle getCharacterBorder() {
+		return this.character.border;
+	}
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
@@ -101,5 +109,6 @@ public class GamePanel extends JPanel implements KeyListener{
 		// TODO Auto-generated method stub
 
 	}
+	
 
 }

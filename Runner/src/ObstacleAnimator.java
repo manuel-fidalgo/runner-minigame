@@ -1,4 +1,3 @@
-
 public class ObstacleAnimator extends Thread{
 
 	Obstacle[] current_obstacles;
@@ -16,6 +15,13 @@ public class ObstacleAnimator extends Thread{
 		while(true){
 			for (int i = 0; i < current_obstacles.length; i++) {
 				current_obstacles[i].displazeLeft();
+				
+				if(current_obstacles[i].border.intersects((g.getCharacterBorder()))){
+					System.out.println("Colision");
+					System.out.println("Obstaculo->"+current_obstacles[i].border);
+					System.out.println("Player->"+g.getCharacterBorder());
+				}
+				
 				if(current_obstacles[i].x + current_obstacles[i].images[0].getWidth(null) < g.getAlignmentX()){
 					current_obstacles[i] = new Obstacle(g);
 				}
