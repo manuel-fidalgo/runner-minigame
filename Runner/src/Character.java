@@ -1,8 +1,11 @@
 import java.awt.Image;
 import java.awt.Rectangle;
 
+import javax.xml.crypto.dsig.CanonicalizationMethod;
+
 public class Character extends Entity{
 	
+	GamePanel g;
 	public Character(){
 		this.x = 0;
 		this.y = 0;
@@ -13,9 +16,7 @@ public class Character extends Entity{
 	}
 	public void jump(){
 		this.currentImage = 1;
-	//	if(condicion de que esta sobre el suelo para que pueda saltar){
-			this.y = this.y - this.images[0].getHeight(null)*2;
-	//	}
+		Physics.startJumpingAnimation();
 	}
 	public void setX(int x){
 		this.x = x;
@@ -27,10 +28,15 @@ public class Character extends Entity{
 		this.y++;
 		border.setLocation(x, y);
 	}
+	public void moveUp() {
+		this.y--;
+		border.setLocation(x, y);
+	}
 	public void changeImage() {
 		currentImage = (currentImage+1)%images.length;
 	}
 	public void bend() {
-		
+
 	}
 }
+

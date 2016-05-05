@@ -18,6 +18,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	public Physics physics;
 	public CloudAnimator clouder; //El nubeador xd
 	public ObstacleAnimator animator;
+	public Chronometer chrono;
 
 	Image[] images;
 	public int floor_cordinate;
@@ -31,15 +32,19 @@ public class GamePanel extends JPanel implements KeyListener{
 	public GamePanel(){
 		updateReferences();
 		setUpImages();
-
+		
+		this.repaint();
+		
 		this.character = new Character();
 		this.clouder = new CloudAnimator(this);
 		this.animator = new ObstacleAnimator(this);
+		this.chrono = new Chronometer(this);
 		this.physics = new Physics(this.character,this);
 
 		clouder.start();
 		physics.start();
 		animator.start();
+		chrono.start();
 
 		this.character.setX(character_cordinate);
 		this.repaint();
@@ -57,8 +62,7 @@ public class GamePanel extends JPanel implements KeyListener{
 			animator.getObstacles()[i].draw((Graphics2D) g);
 		}
 		character.draw((Graphics2D) g);
-		g.setFont(new Font("SansSerif", Font.ITALIC, 20));
-		g.drawString("@manuel_fidalgo", (int)this.getAlignmentX(), (int)this.getAlignmentY()+20);
+		chrono.draw((Graphics2D)g);
 		// g.drawLine(this.character_cordinate,(int) this.getAlignmentY(),this.character_cordinate,(int) this.getAlignmentY()+this.getHeight());
 
 	}

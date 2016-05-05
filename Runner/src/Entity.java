@@ -7,10 +7,11 @@ import javax.swing.ImageIcon;
 
 public abstract class Entity {
 	
+	public static final boolean DEBUG = false;
 	protected int x;
 	protected int y;
 	protected int weight;
-	protected int hight;
+	protected int height;
 	protected int currentImage;
 	public Image [] images;
 	Rectangle border;
@@ -19,7 +20,7 @@ public abstract class Entity {
 		g.drawImage(images[currentImage],x,y,null);
 		try{
 			g.setColor(new Color(0,0,0));
-			g.draw(border);
+		if(DEBUG)	g.draw(border);
 		}catch(NullPointerException e){
 			
 		}

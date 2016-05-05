@@ -8,7 +8,9 @@ public class Obstacle extends Entity{
 		this.images[0] = importImage("obstacle_0.png");
 		this.x = g.getWidth();
 		this.y = g.floor_cordinate-this.images[0].getHeight(null)+5;
-		border = new Rectangle(x, y, this.images[0].getWidth(null), this.images[0].getHeight(null));
+		this.weight = this.images[0].getWidth(null);
+		this.height = this.images[0].getHeight(null);
+		border = new Rectangle(x, y, weight,height );
 	}
 	
 }
