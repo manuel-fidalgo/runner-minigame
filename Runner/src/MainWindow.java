@@ -37,11 +37,12 @@ public class MainWindow {
 	private void initialize() {
 		GamePanel g = GamePanel.getGamePanel();
 		frame = new JFrame();
-		
 		frame.setBounds(100, 100, 1200, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addKeyListener(g);
 		frame.add(g,BorderLayout.CENTER);
+		//Lest see it he commit its efective
+		
 	}
 
 }
