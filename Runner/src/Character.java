@@ -27,12 +27,6 @@ public class Character extends Entity{
 	public void changeImage() {
 		currentImage = (currentImage+1)%images.length;
 	}
-	public void moveLeft(){
-		this.x = this.x-1;
-	}
-	public void moveRight(){
-		this.x = this.x+1;
-	}
 	public void bend() {
 		
 	}

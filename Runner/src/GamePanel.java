@@ -39,6 +39,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		physics.start();
 		animator.start();
 
+		this.character.setX(character_cordinate);
 		this.repaint();
 	}
 
@@ -53,7 +54,6 @@ public class GamePanel extends JPanel implements KeyListener{
 		for (int i = 0; i < animator.getObstacles().length; i++) {
 			animator.getObstacles()[i].draw((Graphics2D) g);
 		}
-		this.character.setX(character_cordinate);
 		character.draw((Graphics2D) g);
 		g.setFont(new Font("SansSerif", Font.ITALIC, 20));
 		g.drawString("@manuel_fidalgo", (int)this.getAlignmentX(), (int)this.getAlignmentY()+20);
@@ -78,10 +78,12 @@ public class GamePanel extends JPanel implements KeyListener{
 				this.character.jump();
 				break;
 			case KeyEvent.VK_D: 
-				this.character.moveRight();
+				for (int i = 0; i < 10; i++) 
+					this.character.displazeRight();
 				break;
 			case KeyEvent.VK_A:
-				this.character.moveLeft();
+				for (int i = 0; i < 10; i++)
+					this.character.displazeLeft();
 				break;
 			case KeyEvent.VK_S: 
 				this.character.bend();
