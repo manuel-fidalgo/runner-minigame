@@ -8,6 +8,8 @@ public class Chronometer extends Thread {
 	private static final int SECOND = 1000;
 	private GamePanel g;
 	
+	private static boolean flag = true;
+	
 	
 	public Chronometer(GamePanel g){
 		this.g = g;
@@ -16,7 +18,7 @@ public class Chronometer extends Thread {
 	}
 	
 	public void run(){
-		while(true){
+		while(flag){
 			try{ Thread.sleep(SECOND);}catch(InterruptedException e){};
 			this.seconds++;
 			if(this.seconds>=60){
@@ -40,5 +42,10 @@ public class Chronometer extends Thread {
 	}
 	public int getMinutes(){
 		return this.minutes;
+	}
+
+	public void terminate() {
+		flag = false;
+		
 	}
 }

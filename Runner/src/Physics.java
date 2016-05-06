@@ -6,6 +6,7 @@ public class Physics extends Thread{
 	static boolean isFalling;
 	public static int LEG_DELAY = 100;
 	public static int FALL_DELAY;
+	private static boolean flag = true;
 	
 	public Physics(Character c,GamePanel g){
 		FALL_DELAY=3;
@@ -14,7 +15,7 @@ public class Physics extends Thread{
 	}
 	
 	public void run(){
-		while(true){
+		while(flag){
 			if(isJumping){
 				character.moveUp();
 				if(character.getFeetPosition() < character.images[0].getHeight(null)*1.5){
@@ -35,5 +36,8 @@ public class Physics extends Thread{
 	}
 	public static void startJumpingAnimation(){
 		if(!isFalling)isJumping = true;
+	}
+	public void terminate(){
+		flag = false;
 	}
 }

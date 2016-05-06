@@ -7,6 +7,8 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -19,9 +21,10 @@ public class GamePanel extends JPanel implements KeyListener{
 	public Character character;
 	public static GamePanel panel_singleton;
 	public Physics physics;
-	public CloudAnimator clouder; //El nubeador xd
+	public CloudAnimator clouder; 
 	public ObstacleAnimator animator;
 	public Chronometer chrono;
+	public boolean gameover;
 
 	Image[] images;
 	public int floor_cordinate;
@@ -30,99 +33,161 @@ public class GamePanel extends JPanel implements KeyListener{
 	public Font game_font;
 	private static final Font SERIF_FONT = new Font("serif", Font.PLAIN, 24);
 	private static final String FONT_NAME = "Source\\font.ttf";
-	
-	
+
+
 	public static GamePanel getGamePanel(){
 		if(panel_singleton==null)
 			panel_singleton = new GamePanel();
 		return panel_singleton;
 	}
+
 	public GamePanel(){
+		gameover = false;
 		updateReferences();
 		setUpImages();
-		
+		this.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.printf("x->%d y->%d\n", e.getX(),e.getY());
+				
+			}
+		});
+
 		this.game_font = importFont(FONT_NAME);
 		this.character = new Character();
 		this.clouder = new CloudAnimator(this);
 		this.animator = new ObstacleAnimator(this);
 		this.chrono = new Chronometer(this);
 		this.physics = new Physics(this.character,this);
+		this.character.setX(character_cordinate);
 
 		clouder.start();
 		physics.start();
 		animator.start();
 		chrono.start();
 
-		this.character.setX(character_cordinate);
 		this.repaint();
 	}
 
 	@Override
 	public void paintComponent(Graphics g){
 		updateReferences();
+		
+		//Draw the background and the floor
 		g.drawImage(images[0],(int)this.getAlignmentX(),(int)this.getAlignmentY(),this.getWidth(),this.getHeight(), null);
 		g.drawImage(images[1],(int)this.getAlignmentX(), floor_cordinate,this.getWidth(),this.getHeight()-floor_cordinate,null);
+		//The clouds and the obstacles
 		for (int i = 0; i < clouder.getClouds().length; i++) {
-			clouder.getClouds()[i].draw((Graphics2D) g);
+			try{clouder.getClouds()[i].draw((Graphics2D) g);}catch(NullPointerException e){}
 		}
 		for (int i = 0; i < animator.getObstacles().length; i++) {
-			animator.getObstacles()[i].draw((Graphics2D) g);
+			try{animator.getObstacles()[i].draw((Graphics2D) g);}catch(NullPointerException e){}
 		}
+		//The chonometer an the characer
 		g.setFont(game_font);
 		character.draw((Graphics2D) g);
 		chrono.draw((Graphics2D)g);
+		
+		//The gameOver final message
+		if(gameover) g.drawString("GAME OVER",450,172);
 		// g.drawLine(this.character_cordinate,(int) this.getAlignmentY(),this.character_cordinate,(int) this.getAlignmentY()+this.getHeight());
-
 	}
+
+
 	public void setUpImages(){
 		images = new Image[2];
 		images[0] = new ImageIcon(getClass().getResource("background.png")).getImage();
 		images[1] = new ImageIcon(getClass().getResource("floor.png")).getImage();
 	}
+
 	private void updateReferences() {
 		this.floor_cordinate = this.getHeight()-this.getHeight()/6;
 		this.character_cordinate = this.getWidth()/12;
 	}
+
 	/*KeyListener events*/
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		switch(arg0.getKeyCode()){
-			case KeyEvent.VK_SPACE:
-			case KeyEvent.VK_W: 
-				this.character.jump();
-				break;
-			case KeyEvent.VK_D: 
-				for (int i = 0; i < 10; i++) 
-					this.character.displazeRight();
-				break;
-			case KeyEvent.VK_A:
-				for (int i = 0; i < 10; i++)
-					this.character.displazeLeft();
-				break;
-			case KeyEvent.VK_S: 
-				this.character.bend();
-				break;
+		case KeyEvent.VK_SPACE:
+		case KeyEvent.VK_W: 
+			this.character.jump();
+			break;
+		case KeyEvent.VK_D: 
+			for (int i = 0; i < 10; i++) 
+				this.character.displazeRight();
+			break;
+		case KeyEvent.VK_A:
+			for (int i = 0; i < 10; i++)
+				this.character.displazeLeft();
+			break;
+		case KeyEvent.VK_S: 
+			this.character.bend();
+			break;
 		}
 		this.repaint();
 	}
+
 	public Character getCharacter(){
 		return this.character;
 	}
+
 	public Rectangle getCharacterBorder() {
 		return this.character.border;
 	}
+
 	private static Font importFont(String name) {
-		
+
 		Font customFont=null;
 		try {
-			 customFont = Font.createFont(Font.TRUETYPE_FONT, new File(name)).deriveFont(34f);
-		    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(name)));
+			customFont = Font.createFont(Font.TRUETYPE_FONT, new File(name)).deriveFont(34f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(name)));
 		} catch (IOException|FontFormatException e) {
 			return SERIF_FONT;
 		}
 		return customFont;
 	}
+
+	public void collision() {
+		try{
+			clouder.terminate();
+			physics.terminate();
+			animator.terminate();
+			chrono.terminate();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			gameover = true;	
+		}
+		this.repaint();
+	}
+
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
@@ -133,6 +198,6 @@ public class GamePanel extends JPanel implements KeyListener{
 		// TODO Auto-generated method stub
 
 	}
-	
 
 }
+
