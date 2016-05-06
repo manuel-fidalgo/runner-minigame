@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 
 public class MainWindow {
 
+	private static final boolean RESIZABLE = false;
 	private JFrame frame;
 
 	/**
@@ -38,6 +39,7 @@ public class MainWindow {
 		GamePanel g = GamePanel.getGamePanel();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1200, 500);
+		frame.setResizable(RESIZABLE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addKeyListener(g);
 		frame.add(g,BorderLayout.CENTER);

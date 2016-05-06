@@ -1,11 +1,14 @@
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -24,6 +27,11 @@ public class GamePanel extends JPanel implements KeyListener{
 	public int floor_cordinate;
 	public int character_cordinate;
 
+	public Font game_font;
+	private static final Font SERIF_FONT = new Font("serif", Font.PLAIN, 24);
+	private static final String FONT_NAME = "Source\\font.ttf";
+	
+	
 	public static GamePanel getGamePanel(){
 		if(panel_singleton==null)
 			panel_singleton = new GamePanel();
@@ -33,8 +41,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		updateReferences();
 		setUpImages();
 		
-		this.repaint();
-		
+		this.game_font = importFont(FONT_NAME);
 		this.character = new Character();
 		this.clouder = new CloudAnimator(this);
 		this.animator = new ObstacleAnimator(this);
@@ -61,6 +68,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		for (int i = 0; i < animator.getObstacles().length; i++) {
 			animator.getObstacles()[i].draw((Graphics2D) g);
 		}
+		g.setFont(game_font);
 		character.draw((Graphics2D) g);
 		chrono.draw((Graphics2D)g);
 		// g.drawLine(this.character_cordinate,(int) this.getAlignmentY(),this.character_cordinate,(int) this.getAlignmentY()+this.getHeight());
@@ -102,6 +110,18 @@ public class GamePanel extends JPanel implements KeyListener{
 	}
 	public Rectangle getCharacterBorder() {
 		return this.character.border;
+	}
+	private static Font importFont(String name) {
+		
+		Font customFont=null;
+		try {
+			 customFont = Font.createFont(Font.TRUETYPE_FONT, new File(name)).deriveFont(34f);
+		    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(name)));
+		} catch (IOException|FontFormatException e) {
+			return SERIF_FONT;
+		}
+		return customFont;
 	}
 	@Override
 	public void keyReleased(KeyEvent arg0) {

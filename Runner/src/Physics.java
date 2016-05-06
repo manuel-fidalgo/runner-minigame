@@ -3,6 +3,7 @@ public class Physics extends Thread{
 	Character character;
 	GamePanel gamepanel;
 	static boolean isJumping;
+	static boolean isFalling;
 	public static int LEG_DELAY = 100;
 	public static int FALL_DELAY;
 	
@@ -22,8 +23,10 @@ public class Physics extends Thread{
 				try { Thread.sleep(FALL_DELAY); } catch (InterruptedException e) { System.err.println("interrupted exception."); }
 			}else if(character.getFeetPosition() < gamepanel.floor_cordinate){
 				character.moveDown();
+				isFalling = true;
 				try { Thread.sleep(FALL_DELAY); } catch (InterruptedException e) { System.err.println("interrupted exception."); }
 			}else{
+				isFalling = false;
 				try { Thread.sleep(LEG_DELAY); } catch (InterruptedException e) { System.err.println("interrupted exception."); }
 				character.changeImage();
 			}
@@ -31,6 +34,6 @@ public class Physics extends Thread{
 		}
 	}
 	public static void startJumpingAnimation(){
-		isJumping = true;
+		if(!isFalling)isJumping = true;
 	}
 }

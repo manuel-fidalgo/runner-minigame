@@ -27,6 +27,18 @@ public class Chronometer extends Thread {
 		}
 	}
 	public void draw(Graphics2D gr){
-		gr.drawString(Integer.toString(minutes)+":"+Integer.toString(seconds),g.getAlignmentX()+20, g.getAlignmentY()+20);
+		String min;
+		String sec;
+		
+		if(minutes<10)  min = Integer.toString(0)+Integer.toString(minutes);
+			else  min = Integer.toString(minutes);
+		
+		if(seconds<10)  sec = Integer.toString(0)+Integer.toString(seconds);
+			else sec = Integer.toString(seconds);
+		
+		gr.drawString(min+"."+sec,g.getAlignmentX()+20, g.getAlignmentY()+50);
+	}
+	public int getMinutes(){
+		return this.minutes;
 	}
 }

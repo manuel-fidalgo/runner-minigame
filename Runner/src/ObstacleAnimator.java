@@ -13,6 +13,10 @@ public class ObstacleAnimator extends Thread{
 	}
 	public void run(){
 		while(true){
+			switch(g.chrono.getMinutes()){
+				case 1: DELAY = 2; break;
+				case 2: DELAY = 1; break;
+			}
 			for (int i = 0; i < current_obstacles.length; i++) {
 				current_obstacles[i].displazeLeft();
 				

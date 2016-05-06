@@ -1,8 +1,6 @@
 import java.awt.Image;
 import java.awt.Rectangle;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
-
 public class Character extends Entity{
 	
 	GamePanel g;
