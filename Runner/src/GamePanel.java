@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
 	public Font game_font;
 	private static final Font SERIF_FONT = new Font("serif", Font.PLAIN, 24);
-	private static final String FONT_NAME = "Source\\font.ttf";
+	private static final String FONT_NAME = "font.ttf";
 
 
 	public static GamePanel getGamePanel(){
@@ -46,35 +46,35 @@ public class GamePanel extends JPanel implements KeyListener{
 		updateReferences();
 		setUpImages();
 		this.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.printf("x->%d y->%d\n", e.getX(),e.getY());
-				
+
 			}
 		});
 
@@ -97,7 +97,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	@Override
 	public void paintComponent(Graphics g){
 		updateReferences();
-		
+
 		//Draw the background and the floor
 		g.drawImage(images[0],(int)this.getAlignmentX(),(int)this.getAlignmentY(),this.getWidth(),this.getHeight(), null);
 		g.drawImage(images[1],(int)this.getAlignmentX(), floor_cordinate,this.getWidth(),this.getHeight()-floor_cordinate,null);
@@ -112,9 +112,9 @@ public class GamePanel extends JPanel implements KeyListener{
 		g.setFont(game_font);
 		character.draw((Graphics2D) g);
 		chrono.draw((Graphics2D)g);
-		
+
 		//The gameOver final message
-		if(gameover) g.drawString("GAME OVER",450,172);
+		if(gameover) g.drawString("GAME OVER",430,152);
 		// g.drawLine(this.character_cordinate,(int) this.getAlignmentY(),this.character_cordinate,(int) this.getAlignmentY()+this.getHeight());
 	}
 
@@ -133,24 +133,26 @@ public class GamePanel extends JPanel implements KeyListener{
 	/*KeyListener events*/
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		switch(arg0.getKeyCode()){
-		case KeyEvent.VK_SPACE:
-		case KeyEvent.VK_W: 
-			this.character.jump();
-			break;
-		case KeyEvent.VK_D: 
-			for (int i = 0; i < 10; i++) 
-				this.character.displazeRight();
-			break;
-		case KeyEvent.VK_A:
-			for (int i = 0; i < 10; i++)
-				this.character.displazeLeft();
-			break;
-		case KeyEvent.VK_S: 
-			this.character.bend();
-			break;
+		if(!gameover){
+			switch(arg0.getKeyCode()){
+			case KeyEvent.VK_SPACE:
+			case KeyEvent.VK_W: 
+				this.character.jump();
+				break;
+			case KeyEvent.VK_D: 
+				for (int i = 0; i < 10; i++) 
+					this.character.displazeRight();
+				break;
+			case KeyEvent.VK_A:
+				for (int i = 0; i < 10; i++)
+					this.character.displazeLeft();
+				break;
+			case KeyEvent.VK_S: 
+				this.character.bend();
+				break;
+			}
+			this.repaint();
 		}
-		this.repaint();
 	}
 
 	public Character getCharacter(){
@@ -161,13 +163,13 @@ public class GamePanel extends JPanel implements KeyListener{
 		return this.character.border;
 	}
 
-	private static Font importFont(String name) {
+	private Font importFont(String name) {
 
 		Font customFont=null;
 		try {
-			customFont = Font.createFont(Font.TRUETYPE_FONT, new File(name)).deriveFont(34f);
+			customFont = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream(name)).deriveFont(40f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(name)));
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream(name)));
 		} catch (IOException|FontFormatException e) {
 			return SERIF_FONT;
 		}
