@@ -11,7 +11,7 @@ public class CloudAnimator extends Thread{
 	public CloudAnimator(GamePanel gamepanel){
 		g = gamepanel;
 		r = new Random(System.currentTimeMillis());
-		current_clouds = new Cloud[3];
+		current_clouds = new Cloud[1];
 	}
 	public void run(){
 		while (flag){
@@ -24,14 +24,14 @@ public class CloudAnimator extends Thread{
 				}
 			}
 			try{ Thread.sleep(DELAY); }catch(InterruptedException e){ }
-			if(r.nextInt(1000)<3){
+			//if(r.nextInt(1000)<3){
 				for (int i = 0; i < current_clouds.length; i++) {
 					if(current_clouds[i]==null){
 						current_clouds[i]= new Cloud(g.getWidth());
 						break;
 					}
 				}
-			}
+			//}
 			g.repaint();
 		}
 	}

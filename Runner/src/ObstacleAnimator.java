@@ -8,8 +8,10 @@ public class ObstacleAnimator extends Thread{
 	public static int DELAY = 3;
 	Random r;
 	private static boolean flag = true;
+	int cout;
 
 	public ObstacleAnimator(GamePanel g) {
+		cout = 0;
 		this.g = g;
 		this.r = new Random(System.currentTimeMillis());
 		this.current_obstacles = new Obstacle[NUM_MAX_OBSTACLES];
@@ -38,7 +40,7 @@ public class ObstacleAnimator extends Thread{
 							g.collision();
 						//}
 					}
-
+					
 					if(current_obstacles[i].x + current_obstacles[i].images[0].getWidth(null) < g.getAlignmentX()){
 						current_obstacles[i] = null;
 					}

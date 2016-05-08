@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	public CloudAnimator clouder; 
 	public ObstacleAnimator animator;
 	public Chronometer chrono;
-	public boolean gameover;
+	public GameOver gameover;
 
 	Image[] images;
 	public int floor_cordinate;
@@ -42,44 +42,12 @@ public class GamePanel extends JPanel implements KeyListener{
 	}
 
 	public GamePanel(){
-		gameover = false;
 		updateReferences();
 		setUpImages();
-		this.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.printf("x->%d y->%d\n", e.getX(),e.getY());
-
-			}
-		});
 
 		this.game_font = importFont(FONT_NAME);
 		this.character = new Character();
+		this.gameover = new GameOver(game_font);
 		this.clouder = new CloudAnimator(this);
 		this.animator = new ObstacleAnimator(this);
 		this.chrono = new Chronometer(this);
@@ -114,7 +82,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		chrono.draw((Graphics2D)g);
 
 		//The gameOver final message
-		if(gameover) g.drawString("GAME OVER",430,152);
+		if(gameover.isGameOver()) gameover.draw((Graphics2D)g);
 		// g.drawLine(this.character_cordinate,(int) this.getAlignmentY(),this.character_cordinate,(int) this.getAlignmentY()+this.getHeight());
 	}
 
@@ -133,7 +101,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	/*KeyListener events*/
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		if(!gameover){
+		if(!gameover.isGameOver()){
 			switch(arg0.getKeyCode()){
 			case KeyEvent.VK_SPACE:
 			case KeyEvent.VK_W: 
@@ -149,6 +117,19 @@ public class GamePanel extends JPanel implements KeyListener{
 				break;
 			case KeyEvent.VK_S: 
 				this.character.bend();
+				break;
+			}
+			this.repaint();
+		}else{
+			switch(arg0.getKeyCode()){
+			case KeyEvent.VK_W:
+				gameover.changeOption();
+				break;
+			case KeyEvent.VK_S: 
+				gameover.changeOption();
+				break;
+			case KeyEvent.VK_ENTER: 
+				gameover.evaluateOption();
 				break;
 			}
 			this.repaint();
@@ -185,7 +166,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
-			gameover = true;	
+			gameover.doGameOver();	
 		}
 		this.repaint();
 	}
