@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		return panel_singleton;
 	}
 
-	public GamePanel(){
+	private GamePanel(){
 		updateReferences();
 		setUpImages();
 
@@ -129,7 +129,7 @@ public class GamePanel extends JPanel implements KeyListener{
 				gameover.changeOption();
 				break;
 			case KeyEvent.VK_ENTER: 
-				gameover.evaluateOption();
+				gameover.evaluateOption(this);
 				break;
 			}
 			this.repaint();
@@ -170,6 +170,11 @@ public class GamePanel extends JPanel implements KeyListener{
 		}
 		this.repaint();
 	}
+	public void restartGame() {
+		panel_singleton = new GamePanel();
+		this.repaint();
+		this.gameover.noGameOver();
+	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
@@ -181,6 +186,5 @@ public class GamePanel extends JPanel implements KeyListener{
 		// TODO Auto-generated method stub
 
 	}
-
 }
 

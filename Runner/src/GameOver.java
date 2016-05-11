@@ -30,9 +30,12 @@ public class GameOver {
 	public boolean isGameOver() {
 		return isGameOver;
 	}
-	
 	public void doGameOver(){
 		isGameOver = true;
+	}
+	public void noGameOver() {
+		isGameOver = false;
+		
 	}
 	public void changeOption(){
 		if(option==1){
@@ -42,9 +45,9 @@ public class GameOver {
 		}
 	}
 
-	public void evaluateOption() {
+	public void evaluateOption(GamePanel g) {
 		if(option==1){
-			
+			g.restartGame();
 		}else{
 			System.exit(0);
 		}
